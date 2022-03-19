@@ -2,6 +2,7 @@ import os
 import datetime
 
 DIRNAME = os.path.dirname(os.path.abspath(__file__))
+news_piece = 10
 
 
 def log(*args, sep=' '):

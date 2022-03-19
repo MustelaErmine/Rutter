@@ -5,8 +5,8 @@ import os
 import sqlite3
 
 from flask import Flask, render_template
-from data.user import *
-from data.post import *
+from data.user import User
+from data.post import Post
 
 
 def main():
@@ -31,9 +31,10 @@ def init_db():
 def testing():
     user = User('ermine_scout')
     user.get_info()
-    print(user)
-    print(user.get_followers())
-    print(user.get_following())
+    posts = user.get_posts()
+    for post in posts:
+        post.get_info()
+    print(posts)
 
 
 main()

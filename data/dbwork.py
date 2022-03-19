@@ -9,13 +9,13 @@ db_init_commands = """CREATE TABLE users (
     joined          DATETIME      NOT NULL DEFAULT (datetime()));
     CREATE TABLE posts (
     id      INTEGER       PRIMARY KEY NOT NULL,
-    author  VARCHAR (16)  REFERENCES users (username) NOT NULL,
+    author  VARCHAR (16)  REFERENCES users (username) ON DELETE CASCADE NOT NULL,
     replied INTEGER       DEFAULT NULL,
     text    VARCHAR (255) NOT NULL,
     date    DATETIME      NOT NULL DEFAULT (datetime()));
     CREATE TABLE followships (
-    who  VARCHAR (16) REFERENCES users (username) NOT NULL,
-    whom INTEGER (16) NOT NULL REFERENCES users (username));"""
+    who  VARCHAR (16) REFERENCES users (username) ON DELETE CASCADE NOT NULL,
+    whom VARCHAR (16) NOT NULL REFERENCES users (username) ON DELETE CASCADE);"""
 
 
 def connect_db():
