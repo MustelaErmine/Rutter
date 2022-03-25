@@ -1,25 +1,31 @@
 from consts import *
 from data.dbwork import *
-
-import os
-import sqlite3
-
-from flask import Flask, render_template
 from data.user import User
 from data.post import Post
 
+import os
+import sqlite3
+from flask import Flask, render_template
+
+app: Flask = None
+
 
 def main():
+    global app
     log('Initializing...')
     log('Path:', DIRNAME)
-
     if not init_db():
         log('Not started')
         return
 
-    log('Started successful!')
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = '209cfj8238c903q'
+    from api import rest, views
+    rest.init_api(app)
+    views.init_views(app)
 
-    testing()
+    log('Started successful!')
+    app.run()
 
 
 def init_db():
@@ -37,4 +43,5 @@ def testing():
     print(posts)
 
 
-main()
+if __name__ == '__main__':
+    main()

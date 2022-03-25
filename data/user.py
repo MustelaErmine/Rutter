@@ -7,20 +7,29 @@ from data.dbwork import *
 class User:
     def __init__(self, username):
         self.username = username
-        self.bio = 'undefined'
 
     def __repr__(self):
         return f'u@{self.username}'
+
+    @staticmethod
+    def register(username, password):
+        result = get_db(f"""SELECT username FROM users WHERE username="{username}" """)
+        if len(result) > 0:
+            return 'exist'
+        result = execute_db(f"""INSERT INTO users(username, hashed_password)
+                                VALUES ("{username}", "{encode_password(password)}")""")
+        return result
 
     def get_info(self):
         user = get_db(f"""SELECT bio, joined FROM users WHERE username="{self.username}" """)
         if not user or len(user) < 1:
             log(f"Error: user @{self.username} not found")
-            return
+            return False
         user = user[0]
         #print(user)
         self.bio = user[0]
         self.joined = datetime.datetime.strptime(user[1], "%Y-%m-%d %H:%M:%S")
+        return True
 
     def change_bio(self, new_bio):
         result = execute_db(f"""UPDATE users SET bio={new_bio} 
@@ -66,3 +75,8 @@ class User:
     def delete(self):
         result = execute_db(f"""DELETE FROM users WHERE username={self.username}""")
         return result
+
+    def check_password(self, password):
+        real = get_db(f"""SELECT hashed_password FROM users
+                          WHERE username="{self.username}" """)
+        return len(real) > 0 and len(real[0]) > 0 and real[0][0] == encode_password(password)
