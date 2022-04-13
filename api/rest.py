@@ -1,12 +1,21 @@
+import json
+
 from flask import make_response, request, Flask, jsonify
 from consts import *
 
 import data.user, data.post
 
-internal_error = make_response('Internal server error. Please, text to developer.')
-internal_error.status_code = 500
-ok = make_response()
-ok.status_code = 200
+
+def internal_error():
+    res = make_response('Internal server error. Please, text to developer.')
+    res.status_code = 500
+    return res
+
+
+def ok():
+    res = make_response()
+    res.status_code = 200
+    return res
 
 
 def init_api(app: Flask):
@@ -33,38 +42,30 @@ def init_user_actions(app: Flask):
     def put_bio():
         user = data.user.User(session['username'])
         if user.change_bio(request.data):
-            return ok
-        return internal_error
+            return ok()
+        return internal_error()
 
     @app.delete('/api/user')
     @authorized
     def delete_user():
         user = data.user.User(session['username'])
         if user.delete():
-            return ok
-        return internal_error
-
-    @app.get('/api/user/logout')
-    @authorized
-    def logout():
-        del session['username']
-        session['authorized'] = False
-        return ok
+            return ok()
+        return internal_error()
 
     @app.post('/api/user/login')
     def login():
         try:
-            form = request.form
+            js = json.loads(request.data)
         except Exception as exception:
             res = make_response('Bad syntax')
             res.status_code = 400
             return res
-        if 'username' not in form or 'password' not in form:
+        if js.get('username', None) is None or js.get('password', None) is None:
             res = make_response('No username or password')
             res.status_code = 400
             return res
-
-        username, password = form['username'], form['password']
+        username, password = js['username'], js['password']
         user = data.user.User(username)
         if not user.check_password(password):
             res = make_response('Wrong password')
@@ -73,7 +74,7 @@ def init_user_actions(app: Flask):
         session['username'] = username
         session['authorized'] = True
 
-        return ok
+        return ok()
 
     @app.post('/api/user/register')
     def register():
@@ -100,7 +101,7 @@ def init_user_actions(app: Flask):
             return res
         elif result:
             return redirect('/enter')
-        return internal_error
+        return internal_error()
 
 
 def init_post_actions(app: Flask):
@@ -116,12 +117,12 @@ def init_post_actions(app: Flask):
         user = data.user.User(session['username'])
         if data.get('reply') is not None:
             if user.reply(data['reply'], data['text']):
-                return ok
+                return ok()
             else:
                 return internal_error
         else:
             if user.add_post(data['text']):
-                return ok
+                return ok()
             else:
                 return internal_error
 
@@ -153,18 +154,18 @@ def init_following_actions(app: Flask):
     def follow(user_id):
         user = data.user.User(session['username'])
         if user.follow(user_id):
-            return ok
+            return ok()
         else:
-            return internal_error
+            return internal_error()
 
     @app.delete('/api/follow/<user_id>')
     @authorized
     def unfollow(user_id):
         user = data.user.User(session['username'])
         if user.unfollow(user_id):
-            return ok
+            return ok()
         else:
-            return internal_error
+            return internal_error()
 
     @app.get('/api/followers')
     @authorized

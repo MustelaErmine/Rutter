@@ -24,6 +24,10 @@ def main():
     rest.init_api(app)
     views.init_views(app)
 
+    @app.route('/static/<path:path>')
+    def send_report(path):
+        return send_from_directory('static', path)
+
     log('Started successful!')
     app.run()
 
@@ -41,11 +45,6 @@ def testing():
     for post in posts:
         post.get_info()
     print(posts)
-
-
-@app.route('/static/<path:path>')
-def send_report(path):
-    return send_from_directory('static', path)
 
 
 if __name__ == '__main__':

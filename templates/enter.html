@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" type="text/css" href="/static/css/style.css">-->
+    <title>auth : rutter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <script src="/static/js/enter_page.js"></script>
+
+</head>
+<body style="padding-top: 6rem;">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start navbar-collapse collapse">
+            <a class="d-flex align-items-center me-auto text-white text-decoration-none navbar-nav" href="/">
+                <h1>Rutter</h1>
+            </a>
+        </div>
+    </div>
+</nav>
+<main class="container d-flex">
+    <div class="px-4 py-5 text-center align-self-center mx-auto" style="width: 50%;">
+        <form class="card" name="main">
+            <div class="card-header"><h3>Please, introduce yourself</h3></div>
+            <div class="card-body">
+                <div class="form-floating mb-3">
+                    <input id="usernameInput" class="form-control" type="text" placeholder="your_username" name="username"/>
+                    <label for="usernameInput">Your username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input id="passwordInput" class="form-control" type="password" placeholder="password123" name="password"/>
+                    <label for="passwordInput">Password</label>
+                </div>
+                <button class="btn btn-lg btn-primary" type="button" onclick="try_auth();">Sign In</button>
+                <hr class="my-4">
+                <div class="alert alert-danger" id="error_alert" style="display: none;"></div>
+                <hr class="my-4">
+                <small class="text-muted">Or you can <a href="/register">sign up</a> for free</small>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>
