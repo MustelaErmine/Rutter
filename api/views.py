@@ -3,6 +3,7 @@ from consts import *
 
 import data.user, data.post
 
+
 def init_views(app: Flask):
     init_user_actions(app)
     init_auth_actions(app)

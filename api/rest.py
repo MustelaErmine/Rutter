@@ -128,15 +128,15 @@ def init_post_actions(app: Flask):
     @app.get('/api/posts/<user_id>/<int:offset>')
     @authorized
     def get_posts_list(user_id, offset):
-        user = data.user.User(session['username'])
-        posts = data.post.Post.get_user_posts(user_id, offset)
+        user = data.user.User(user_id)
+        posts = user.get_posts(offset)
         return jsonify({'posts': [p.id for p in posts]})
 
     @app.get('/api/posts/news/<int:offset>')
     @authorized
     def get_news_list(offset):
         user = data.user.User(session['username'])
-        posts = user.get_posts(offset)
+        posts = user.get_news(offset)
         return jsonify({'posts': [p.id for p in posts]})
 
     @app.get('/api/post/<post_id>')
@@ -148,4 +148,34 @@ def init_post_actions(app: Flask):
 
 
 def init_following_actions(app: Flask):
-    pass
+    @app.put('/api/follow/<user_id>')
+    @authorized
+    def follow(user_id):
+        user = data.user.User(session['username'])
+        if user.follow(user_id):
+            return ok
+        else:
+            return internal_error
+
+    @app.delete('/api/follow/<user_id>')
+    @authorized
+    def unfollow(user_id):
+        user = data.user.User(session['username'])
+        if user.unfollow(user_id):
+            return ok
+        else:
+            return internal_error
+
+    @app.get('/api/followers')
+    @authorized
+    def get_followers():
+        user = data.user.User(session['username'])
+        followers = user.get_followers()
+        return [u.id for u in followers]
+
+    @app.get('/api/followings')
+    @authorized
+    def get_following():
+        user = data.user.User(session['username'])
+        followings = user.get_following()
+        return [u.id for u in followings]

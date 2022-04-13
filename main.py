@@ -5,7 +5,7 @@ from data.post import Post
 
 import os
 import sqlite3
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 
 app: Flask = None
 
@@ -41,6 +41,11 @@ def testing():
     for post in posts:
         post.get_info()
     print(posts)
+
+
+@app.route('/static/<path:path>')
+def send_report(path):
+    return send_from_directory('static', path)
 
 
 if __name__ == '__main__':

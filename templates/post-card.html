@@ -1,14 +1,13 @@
 <div class="card rounded-3 shadow-sm mb-5" style="margin-right: 30%;">
     <div class="card-header py-3">
-        <a style="display: inline-block; vertical-align: middle;" class="bi" href="/ermine_scout">
-            <h3
-                    class="my-0 fw-normal">
+        <a style="display: inline-block; vertical-align: middle;" class="bi" href="/{{author}}">
+            <h3 class="my-0 fw-normal">
                 <svg width="24" height="24" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                     <path fill-rule="evenodd"
                           d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                 </svg>
-                {{user}}
+                {{author}}
             </h3>
         </a>
     </div>
@@ -24,15 +23,16 @@
                 </svg>
                 Reply
             </button>
-            <a href="/post/10224" class="text-muted d-inline-flex justify-content-end align-self-center">Replies:
+            <a href="/post/{{idn}}" class="text-muted d-inline-flex justify-content-end align-self-center">Replies:
                 {{replies}}</a>
         </div>
         <div style="min-height: 0px;">
             <div class="collapse collapse-vertical" id="collapseWidthExample{{idn}}">
                     <textarea class="rounded-3 card"
-                              style="width: 300px; display: inline-block; vertical-align: middle;"></textarea>
+                              style="width: 300px; display: inline-block; vertical-align: middle;"
+                              id="textarea{{idn}}"></textarea>
                 <button style="display: inline-block; vertical-align: middle;"
-                        class="btn btn-success mx-3">Send
+                        class="btn btn-success mx-3" onclick="replyToPost('{{idn}}');">Send
                 </button>
             </div>
         </div>
