@@ -1,4 +1,4 @@
-from flask import make_response, request, Flask
+from flask import make_response, request, Flask, jsonify
 from consts import *
 
 import data.user, data.post
@@ -33,7 +33,7 @@ def init_user_actions(app: Flask):
     def put_bio():
         user = data.user.User(session['username'])
         if user.change_bio(request.data):
-            return redirect('/')
+            return ok
         return internal_error
 
     @app.delete('/api/user')
@@ -41,7 +41,7 @@ def init_user_actions(app: Flask):
     def delete_user():
         user = data.user.User(session['username'])
         if user.delete():
-            return redirect('/')
+            return ok
         return internal_error
 
     @app.get('/api/user/logout')
@@ -104,8 +104,47 @@ def init_user_actions(app: Flask):
 
 
 def init_post_actions(app: Flask):
-    # @app.post('/api/')
-    pass
+    @app.post('/api/post')
+    @authorized
+    def add_post():
+        try:
+            data = request.json
+        except Exception as exception:
+            res = make_response('Bad syntax')
+            res.status_code = 400
+            return res
+        user = data.user.User(session['username'])
+        if data.get('reply') is not None:
+            if user.reply(data['reply'], data['text']):
+                return ok
+            else:
+                return internal_error
+        else:
+            if user.add_post(data['text']):
+                return ok
+            else:
+                return internal_error
+
+    @app.get('/api/posts/<user_id>/<int:offset>')
+    @authorized
+    def get_posts_list(user_id, offset):
+        user = data.user.User(session['username'])
+        posts = data.post.Post.get_user_posts(user_id, offset)
+        return jsonify({'posts': [p.id for p in posts]})
+
+    @app.get('/api/posts/news/<int:offset>')
+    @authorized
+    def get_news_list(offset):
+        user = data.user.User(session['username'])
+        posts = user.get_posts(offset)
+        return jsonify({'posts': [p.id for p in posts]})
+
+    @app.get('/api/post/<post_id>')
+    @authorized
+    def get_post(post_id):
+        p = data.post.Post(post_id)
+        p.get_info()
+        return jsonify({'date': p.date, 'text': p.text, 'author': p.author, 'replied': p.replied})
 
 
 def init_following_actions(app: Flask):

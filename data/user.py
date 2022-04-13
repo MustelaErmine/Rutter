@@ -38,7 +38,7 @@ class User:
 
     def get_posts(self, offset=0):
         posts = get_db(f"""SELECT id FROM posts 
-                           WHERE replied IS NULL AND author="{self.username}" 
+                           WHERE replied IS NULL AND author<>"{self.username}" 
                            ORDER BY date DESC LIMIT {news_piece} OFFSET {offset}""")
         return [p.Post(post[0]) for post in posts]
 

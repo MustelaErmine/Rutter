@@ -26,3 +26,10 @@ class Post:
     def __repr__(self):
         return f'{"u@0" if self.author == "undefined" else "@" + self.author.username}: ' + \
                f'"{(self.text[:20] + "...") if len(self.text) > 25 else self.text}"'
+
+    @staticmethod
+    def get_user_posts(self, username, offset=0):
+        posts = get_db(f"""SELECT id FROM posts 
+                           WHERE author="{username}" 
+                           ORDER BY date DESC LIMIT {news_piece} OFFSET {offset}""")
+        return [Post(post[0]) for post in posts]
