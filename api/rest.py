@@ -79,28 +79,28 @@ def init_user_actions(app: Flask):
     @app.post('/api/user/register')
     def register():
         try:
-            form = request.form
+            js = json.loads(request.data)
         except Exception as exception:
             res = make_response('Bad syntax')
             res.status_code = 400
             return res
-        if 'username' not in form or 'password' not in form or 'password2' not in form:
+        if js.get('username', None) is None or js.get('password', None) is None or js.get('password2', None) is None:
             res = make_response('No username or password or password2')
             res.status_code = 400
             return res
-        if form['password'] != form['password2']:
+        if js['password'] != js['password2']:
             res = make_response('Passwords not similar')
             res.status_code = 400
             return res
 
-        username, password = form['username'], form['password']
+        username, password = js['username'], js['password']
         result = data.user.User.register(username, password)
         if result == 'exist':
             res = make_response('User already exist')
             res.status_code = 400
             return res
         elif result:
-            return redirect('/enter')
+            return ok()
         return internal_error()
 
 

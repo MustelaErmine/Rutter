@@ -25,7 +25,7 @@ def init_auth_actions(app: Flask):
 
     @app.get('/register')
     def new():
-        return 'register new'
+        return render_template('register.html')
 
     @app.get('/logout')
     @authorized
