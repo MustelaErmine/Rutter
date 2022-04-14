@@ -1,9 +1,3 @@
-let origin = window.location.origin;
-let api_prefix = '/api'
-let username = "{{username}}";
-
-api_address = function (address) { return origin + api_prefix + address; }
-
 function display_error(error) {
     var error_label = document.getElementById("error_alert");
     error_label.style = "";
