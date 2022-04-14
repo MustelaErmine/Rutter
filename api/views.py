@@ -4,6 +4,18 @@ from consts import *
 import data.user, data.post
 
 
+def internal_error():
+    res = make_response('Internal server error. Please, text to developer.')
+    res.status_code = 500
+    return res
+
+
+def ok():
+    res = make_response()
+    res.status_code = 200
+    return res
+
+
 def init_views(app: Flask):
     init_user_actions(app)
     init_auth_actions(app)
@@ -40,8 +52,17 @@ def init_post_actions(app: Flask):
     @authorized
     def home():
         user = data.user.User(session['username'])
-        return render_template('news.html', title=f"news : rutter", username=user.username)
+        return render_template('news.html', username=user.username)
 
+    @app.get('/post-card/<post_id>')
+    @authorized
+    def post_card(post_id):
+        user = data.user.User(session['username'])
+        post = data.post.Post(post_id)
+        if not post.get_info():
+            return internal_error()
+        return render_template('post-card.html', idn=post_id, replies=len(post.replies), text=post.text,
+                               author=post.author.username)
 
 
 def init_following_actions(app: Flask):

@@ -61,6 +61,10 @@ def init_user_actions(app: Flask):
             res = make_response('Bad syntax')
             res.status_code = 400
             return res
+        if not js:
+            res = make_response('Bad syntax')
+            res.status_code = 400
+            return res
         if js.get('username', None) is None or js.get('password', None) is None:
             res = make_response('No username or password')
             res.status_code = 400
@@ -81,6 +85,10 @@ def init_user_actions(app: Flask):
         try:
             js = json.loads(request.data)
         except Exception as exception:
+            res = make_response('Bad syntax')
+            res.status_code = 400
+            return res
+        if not js:
             res = make_response('Bad syntax')
             res.status_code = 400
             return res
@@ -109,19 +117,23 @@ def init_post_actions(app: Flask):
     @authorized
     def add_post():
         try:
-            data = request.json
+            js = json.loads(request.data)
         except Exception as exception:
             res = make_response('Bad syntax')
             res.status_code = 400
             return res
+        if not js:
+            res = make_response('Bad syntax')
+            res.status_code = 400
+            return res
         user = data.user.User(session['username'])
-        if data.get('reply') is not None:
-            if user.reply(data['reply'], data['text']):
+        if js.get('reply') is not None:
+            if user.reply(data.post.Post(js['reply']), js['text']):
                 return ok()
             else:
                 return internal_error
         else:
-            if user.add_post(data['text']):
+            if user.add_post(js['text']):
                 return ok()
             else:
                 return internal_error
