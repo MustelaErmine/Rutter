@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="/static/js/post_card.js" type="text/javascript"></script>
+<script>var post_id = "{{post_id}}";</script>
+<div id="parent_post"></div>
+<div id="articles" style="width: 90%; float: right;"></div>
+
+<script src="/static/js/post_page.js" type="text/javascript"></script>
+
+{% endblock %}

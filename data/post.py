@@ -13,7 +13,7 @@ class Post:
     def get_info(self):
         post = get_db(f'SELECT * FROM posts WHERE id="{self.id}"')
         if not post or len(post) < 1:
-            log(f"Error: post id#{id} not found")
+            log(f"Error: post id#{self.id} not found")
             return False
 
         post = post[0]

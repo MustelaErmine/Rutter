@@ -52,7 +52,7 @@ def init_post_actions(app: Flask):
     @authorized
     def home():
         user = data.user.User(session['username'])
-        return render_template('news.html', username=user.username)
+        return render_template('news.html', username=user.username, path='/')
 
     @app.get('/post-card/<post_id>')
     @authorized
@@ -62,7 +62,16 @@ def init_post_actions(app: Flask):
         if not post.get_info():
             return internal_error()
         return render_template('post-card.html', idn=post_id, replies=len(post.replies), text=post.text,
-                               author=post.author.username)
+                               author=post.author.username, date=post.date)
+
+    @app.get('/post/<post_id>')
+    @authorized
+    def post_view(post_id):
+        user = data.user.User(session['username'])
+        post = data.post.Post(post_id)
+        if not post.get_info():
+            return internal_error()
+        return render_template('post.html', post_id=post_id, username=user.username, path='/post/' + post_id)
 
 
 def init_following_actions(app: Flask):

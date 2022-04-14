@@ -156,8 +156,10 @@ def init_post_actions(app: Flask):
     @authorized
     def get_post(post_id):
         p = data.post.Post(post_id)
-        p.get_info()
-        return jsonify({'date': p.date, 'text': p.text, 'author': p.author, 'replied': p.replied})
+        if not p.get_info():
+            return internal_error()
+        return jsonify(
+            {'date': p.date, 'text': p.text, 'author': p.author.username, 'replies': [i.id for i in p.replies]})
 
 
 def init_following_actions(app: Flask):

@@ -24,7 +24,7 @@
             <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small d-flex">
                 <li>
                     <a class="nav-link text-secondary
-                        {% if path == '/' %} text-secondary {% else %} text-white {% endif %}"
+                        {% if path == '/' %} text-white {% else %} text-secondary  {% endif %}"
                        href="/">
                         <svg width="24" height="24" fill="currentColor" class="bi bi-house-door d-block mx-auto mb-1"
                              viewBox="0 0 16 16">
@@ -35,7 +35,7 @@
                 </li>
                 <li>
                     <a class="nav-link
-                        {% if path == username %} text-white {% else %} text-secondary {% endif %}"
+                        {% if path == '/' + username %} text-white {% else %} text-secondary {% endif %}"
                        href="/{{ username }}">
                         <svg width="24" height="24" fill="currentColor" class="bi bi-person d-block mx-auto mb-1"
                              viewBox="0 0 16 16">
