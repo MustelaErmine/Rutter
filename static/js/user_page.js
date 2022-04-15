@@ -2,7 +2,7 @@ let posts_parent = document.getElementById('articles')
 let last_obj = "";
 
 async function update_posts(offset=0) {
-    var response = await fetch(api_address("/posts/" + username + '/' + offset));
+    var response = await fetch(api_address("/posts/" + tusername + '/' + offset));
     var data = await response.json();
     //posts_parent.innerHTML = "";
     for (var i = 0; i < data.posts.length; i++) {

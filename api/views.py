@@ -64,7 +64,7 @@ def init_post_actions(app: Flask):
             res.status_code = 404
             return res
         return render_template('post-card.html', idn=post_id, replies=len(post.replies), text=post.text,
-                               author=post.author.username, date=post.date)
+                               author=post.author.username, date=post.date.strftime("%H:%M:%S %d %b %Y"))
 
     @app.get('/post/<post_id>')
     @authorized
@@ -87,9 +87,9 @@ def init_post_actions(app: Flask):
             res = make_response('Page does not exist')
             res.status_code = 404
             return res
-        return render_template('user_page.html', username=user_id, path='/' + user_id,
-                               title=str(user_id) + ' : rutter', joined=tuser.joined, bio=tuser.bio,
-                               edit=user.username == tuser.username)
+        return render_template('user_page.html', tusername=user_id, path='/' + user_id,
+                               title=str(user_id) + ' : rutter', joined=tuser.joined.strftime("%H:%M:%S %d %b %Y"),
+                               bio=tuser.bio, edit=user.username == tuser.username, username=user.username)
 
 
 def init_following_actions(app: Flask):

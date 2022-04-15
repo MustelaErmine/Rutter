@@ -4,8 +4,9 @@
 
 <div class="d-flex">
     <script src="/static/js/post_card.js" type="text/javascript"></script>
-    <script>var username = "{{username}}";</script>
+    <script>var username = "{{username}}", tusername = "{{tusername}}";</script>
     <div class="d-flex flex-column" style="width: 70%">
+        {% if edit %}
         <div class="mb-5 d-flex flex-row">
             <textarea class="rounded-3 flex-fill" placeholder="Send new post..." id="newPost"></textarea>
             <button class="btn btn-success m-3" onclick="add_post();">
@@ -15,12 +16,13 @@
                 </svg>
             </button>
         </div>
+        {% endif %}
         <div id="articles" class="d-flex flex-column"></div>
     </div>
     <div class="d-inline-flex ms-auto">
         <div id="user-info" class="card d-inline-flex" style="max-height: 12rem;">
             <div class="card-header">
-                <h4 class="my-0 fw-normal">{{ username }}</h4>
+                <h4 class="my-0 fw-normal">{{ tusername }}</h4>
             </div>
             <div class="card-body">
                 <p style="text-align: center;"> Bio: {% if edit %} <input type="text" id="bioEdit" class="mx-3"
