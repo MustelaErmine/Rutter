@@ -18,7 +18,7 @@ var offset = 0;
 var cont = update_posts(offset);
 offset += 10;
 
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', async function() {
 	var element = document.querySelector('#post' + last_obj);
 	console.log(last_obj);
 	var position = element.getBoundingClientRect();
@@ -31,7 +31,7 @@ window.addEventListener('scroll', function() {
 	// checking for partial visibility
 	if(position.top < window.innerHeight && position.bottom >= 0) {
 	    if (cont) {
-	        cont = update_posts(offset);
+	        cont = await update_posts(offset);
 	        offset += 10;
 	    }
 	}

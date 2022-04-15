@@ -27,7 +27,7 @@ class User:
             return False
         user = user[0]
         #print(user)
-        self.bio = user[0]
+        self.bio = str(user[0])
         self.joined = datetime.datetime.strptime(user[1], "%Y-%m-%d %H:%M:%S")
         return True
 
