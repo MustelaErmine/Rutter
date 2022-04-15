@@ -32,7 +32,7 @@ class User:
         return True
 
     def change_bio(self, new_bio):
-        result = execute_db(f"""UPDATE users SET bio={new_bio} 
+        result = execute_db(f"""UPDATE users SET bio="{new_bio}" 
                                 WHERE username="{self.username}" """)
         return result
 
