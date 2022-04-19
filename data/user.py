@@ -9,7 +9,13 @@ class User:
         self.username = username
 
     def __repr__(self):
-        return f'u@{self.username}'
+        self.get_info()
+        string = ''
+        string += "{username:'" + self.username + "',"
+        string += "bio: '" + self.bio + "',"
+        string += "joined:'" + self.joined.strftime("%H:%M:%S %d %b %Y") + "',"
+        string += 'followers_count:' + str(len(self.get_followers())) + '}'
+        return string
 
     @staticmethod
     def register(username, password):

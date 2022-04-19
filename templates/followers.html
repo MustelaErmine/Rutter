@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap">
+    <script>var username = "{{username}}", tusername = "{{tusername}}"; followers = {{followers}};</script>
+    {% for follower in followers %}
+    <div class="d-flex m-3">
+        <div id="user-info" class="card d-inline-flex">
+            <div class="card-header">
+                <a href="/{{follower.username}}"> <h4 class="my-0 fw-normal">{{ follower.username }}</h4> </a>
+            </div>
+            <div class="card-body">
+                <p>Bio: {{ follower.bio }}</p>
+                <p>Registered: {{ follower.joined }}</p>
+                <p><a href="/{{ follower.username }}/followers">Followers: {{follower.followers_count}}</a></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

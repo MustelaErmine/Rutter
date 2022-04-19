@@ -91,8 +91,21 @@ def init_post_actions(app: Flask):
         return render_template('user_page.html', tusername=user_id, path='/' + user_id,
                                title=str(user_id) + ' : rutter', joined=tuser.joined.strftime("%H:%M:%S %d %b %Y"),
                                bio=tuser.bio, edit=user.username == tuser.username, username=user.username,
-                               followed=followed)
+                               followed=followed, followers_count=len(tuser.get_followers()))
 
 
 def init_following_actions(app: Flask):
-    pass
+    @authorized
+    @app.get('/<user_id>/followers')
+    def followers(user_id):
+        user = data.user.User(session['username'])
+        tuser = data.user.User(user_id)
+        if not tuser.get_info():
+            res = make_response('Page does not exist')
+            res.status_code = 404
+            return res
+        followers = tuser.get_followers()
+        for i in range(len(followers)):
+            followers[i].followers_count = len(followers[i].get_followers())
+
+        return render_template('followers.html', followers=followers, username=user.username, tusername=tuser.username)
