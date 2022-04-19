@@ -71,18 +71,18 @@ class User:
         if user in [u.username for u in self.get_following()]:
             return True
         result = execute_db(f"""INSERT INTO followships(who, whom) 
-                                VALUES ("{self.username}", "{user}" """)
+                                VALUES ("{self.username}", "{user}") """)
         return result
 
     def unfollow(self, user):
         if user not in [u.username for u in self.get_following()]:
             return True
         result = execute_db(f"""DELETE FROM followships 
-                                WHERE who={self.username} AND whom={user}""")
+                                WHERE who="{self.username}" AND whom="{user}" """)
         return result
 
     def delete(self):
-        result = execute_db(f"""DELETE FROM users WHERE username={self.username}""")
+        result = execute_db(f"""DELETE FROM users WHERE username="{self.username}" """)
         return result
 
     def check_password(self, password):

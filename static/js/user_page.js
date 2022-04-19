@@ -58,3 +58,21 @@ async function add_post() {
         window.location.reload();
     }
 }
+
+async function followBtn() {
+    if (followed)
+        var res = await fetch('/api/follow/' + tusername, {method: 'DELETE'});
+    else
+        var res = await fetch('/api/follow/' + tusername, {method: 'PUT'});
+    var body = await res.text();
+    if (res.status == 200) {
+        followed = !followed;
+        if (followed) {
+            document.getElementById('followBtn').innerText = "Followed";
+            document.getElementById('followBtn').className = "btn btn-outline-secondary";
+        } else {
+            document.getElementById('followBtn').innerText = "Follow";
+            document.getElementById('followBtn').className = "btn btn-secondary";
+        }
+    }
+}

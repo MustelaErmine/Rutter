@@ -4,7 +4,7 @@
 
 <div class="d-flex">
     <script src="/static/js/post_card.js" type="text/javascript"></script>
-    <script>var username = "{{username}}", tusername = "{{tusername}}";</script>
+    <script>var username = "{{username}}", tusername = "{{tusername}}"; followed = "{{followed}}" == "True";</script>
     <div class="d-flex flex-column" style="width: 70%">
         {% if edit %}
         <div class="mb-5 d-flex flex-row">
@@ -20,13 +20,13 @@
         <div id="articles" class="d-flex flex-column"></div>
     </div>
     <div class="d-inline-flex ms-auto">
-        <div id="user-info" class="card d-inline-flex" style="max-height: 12rem;">
+        <div id="user-info" class="card d-inline-flex" style="max-height: 16rem;">
             <div class="card-header">
                 <h4 class="my-0 fw-normal">{{ tusername }}</h4>
             </div>
             <div class="card-body">
-                <p style="text-align: center;"> Bio: {% if edit %} <input type="text" id="bioEdit" class="mx-3"
-                                                                          placeholder="{{bio}}">
+                <p> Bio: {% if edit %} <input type="text" id="bioEdit" class="mx-3"
+                                              placeholder="{{bio}}">
                     <button class="btn btn-outline-success" onclick="save_bio();" style="height: inherit;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-check2" viewBox="0 0 16 16">
@@ -36,7 +36,15 @@
                     {% else %} {{ bio }} {% endif %}
                 </p>
                 <p>Registered: {{ joined }}</p>
-                <p></p>
+                <p><a href="/{{ tusername }}/followers">Followers: {{followers_count}}</a></p>
+                {% if tusername != username %}
+                <p>
+                    <button class="btn {% if followed %} btn-outline-secondary {% else %} btn-secondary {% endif %}"
+                            onclick="followBtn();" id="followBtn">
+                        {% if followed %} Followed {% else %} Follow {% endif %}
+                    </button>
+                </p>
+                {% endif %}
             </div>
         </div>
     </div>

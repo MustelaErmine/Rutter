@@ -87,9 +87,11 @@ def init_post_actions(app: Flask):
             res = make_response('Page does not exist')
             res.status_code = 404
             return res
+        followed = user.username in [i.username for i in tuser.get_followers()]
         return render_template('user_page.html', tusername=user_id, path='/' + user_id,
                                title=str(user_id) + ' : rutter', joined=tuser.joined.strftime("%H:%M:%S %d %b %Y"),
-                               bio=tuser.bio, edit=user.username == tuser.username, username=user.username)
+                               bio=tuser.bio, edit=user.username == tuser.username, username=user.username,
+                               followed=followed)
 
 
 def init_following_actions(app: Flask):
